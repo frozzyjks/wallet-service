@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: wallet
+      POSTGRES_PASSWORD: wallet
+      POSTGRES_DB: wallet_db
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql+asyncpg://wallet:wallet@db:5432/wallet_db
+    ports:
+      - "8000:8000"
